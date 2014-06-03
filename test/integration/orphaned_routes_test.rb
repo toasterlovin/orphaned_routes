@@ -13,26 +13,22 @@ class OrphanedRoutesTest < ActionDispatch::IntegrationTest
   end
 
   test "no orphaned routes exist" do
+
     orphaned_routes = []
 
     # Ignore the assets route
     defined_routes.reject { |route| route[:path].starts_with?("/assets") }.each do |route|
-      puts "\nRoute: #{route[:verb]} to #{route[:path]}"
       begin
-        puts "Resetting session"
         reset!
         # Use the route's verb to access the route's path
-        puts "Going to route"
         request_via_redirect(route[:verb], route[:path])
-        puts "Nothing went wrong"
       rescue ActionController::RoutingError, AbstractController::ActionNotFound
-        puts "Rescued RoutingError or ActionNotFound, this is an orphaned route"
         # ActionController::RoutingError means the controller doesn't exist
         # AbstractController::ActionNotFound means the action doesn't exist
         orphaned_routes << "#{route[:verb]} #{route[:path]}"
       rescue ActiveRecord::RecordNotFound, ActionController::ParameterMissing
-        puts "Rescued RecordNotFound, ParameterMissing, this is NOT an orphaned route"
         # ActiveRecord::RecordNotFound happens because we are using 1 for all the route params
+        # ActionController::ParameterMissing happens because we aren't submitting params to create or update
       end
     end
 
