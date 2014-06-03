@@ -1,5 +1,6 @@
 class ThingsController < ApplicationController
-  before_action :set_thing, only: [:show, :edit, :update, :destroy]
+  # before_action :set_thing, only: [:show, :edit, :update, :destroy]
+  before_action :set_thing, only: [:show, :update, :destroy]
 
   # GET /things
   # GET /things.json
@@ -18,8 +19,8 @@ class ThingsController < ApplicationController
   end
 
   # GET /things/1/edit
-  def edit
-  end
+  # def edit
+  # end
 
   # POST /things
   # POST /things.json
