@@ -12,8 +12,8 @@ class ThingsController < ApplicationController
     @thing = Thing.new
   end
 
-  # def edit
-  # end
+  def edit
+  end
 
   def create
     @thing = Thing.new(thing_params)
